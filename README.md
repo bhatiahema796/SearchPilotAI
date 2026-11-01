@@ -110,7 +110,63 @@ A Project Manager coordinates employee tasks, while a Quality Auditor reviews th
 
 
 
-\## 6. Installation
+## 6. Installation and Setup
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/bhatiahema796/SearchPilotAI.git
+cd SearchPilotAI
+```
+
+### Step 2: Create a Virtual Environment
+
+```bash
+python -m venv .venv
+```
+
+### Step 3: Activate the Environment
+
+Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### Step 4: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 5: Configure Environment Variables
+
+Create a `.env` file using `.env.example` as a template.
+
+Add your own OpenRouter API key and Gmail credentials to the local `.env` file. Never upload this file to GitHub.
+
+### Step 6: Run the Agency
+
+```bash
+python main.py
+```
+
+### Step 7: Launch the Dashboard
+
+```bash
+streamlit run dashboard/app.py
+```
+
+## 7. Security
+
+- API keys and passwords are stored in the local `.env` file.
+- Google Service Account credentials are stored separately.
+- Sensitive files are excluded using `.gitignore`.
+- `.env.example` contains placeholders only.
+
+## 8. Project Objective
+
+To demonstrate a coordinated AI agency in which specialized AI employees perform SEO and AEO tasks, the Project Manager coordinates execution, and the Quality Auditor reviews employee outputs.
 
 
 

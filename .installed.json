@@ -1,0 +1,24 @@
+{
+  "project_name": "SearchPilot AI",
+  "project_type": "custom_python_implementation",
+  "description": "SEO and AEO automation agency with 8 AI employees",
+  "employees": [
+    "project-manager",
+    "keyword-researcher",
+    "seo-content-writer",
+    "technical-seo-auditor",
+    "aeo-specialist",
+    "competitor-analyst",
+    "performance-analyst",
+    "quality-auditor"
+  ],
+  "automation_bridges": {
+    "google_sheets": "integrations/google_sheets.py",
+    "gmail_daily_report": "integrations/email_report.py",
+    "task_execution": "shared/agent_runner.py",
+    "task_management": "shared/task_manager.py",
+    "dashboard": "dashboard/app.py"
+  },
+  "configuration": "config/agency.json",
+  "credentials_file": ".env"
+}

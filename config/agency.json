@@ -1,0 +1,32 @@
+
+{
+  "agency_name": "SearchPilot AI",
+  "project_type": "Autonomous SEO and AEO Agency",
+  "version": "1.0.0",
+  "description": "An autonomous AI agency that helps businesses improve their visibility on search engines and AI-powered answer platforms.",
+  "total_employees": 8,
+  "project_manager": "project-manager",
+  "employees": [
+    "project-manager",
+    "keyword-researcher",
+    "seo-content-writer",
+    "technical-seo-auditor",
+    "aeo-specialist",
+    "competitor-analyst",
+    "performance-analyst",
+    "quality-auditor"
+  ],
+  "services": [
+    "Keyword Research",
+    "SEO Content Creation",
+    "Technical SEO Auditing",
+    "Answer Engine Optimization",
+    "Competitor Analysis",
+    "Performance Tracking",
+    "Content Quality Assurance"
+  ],
+  "integrations": [
+    "Google Sheets",
+    "Email Reporting"
+  ]
+}

@@ -1,16 +1,16 @@
-# Environment and secrets
 .env
 .venv/
-integrations/google_service_account.json
-.streamlit/secrets.toml
-
-# Python generated files
 __pycache__/
-*.py[cod]
+*.pyc
+.DS_Store
+.vscode/
 
-# Private logs
-logs/*.log
+logs/
+reports/
+data/
+database/*.db
+database/*.sqlite
+integrations/google_service_account.json
 
-# Secret keys
-*.pem
-*.key
+**/*backup*
+**/*before_client_registration*

@@ -1,7 +1,9 @@
 
+import argparse
 import json
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+from urllib.parse import urlparse
 
 from shared.task_manager import assign_tasks
 from shared.agent_runner import execute_pending_tasks
@@ -29,8 +31,13 @@ def save_log(agent_name, task, status):
     logs = []
 
     if LOG_FILE.exists():
-        with open(LOG_FILE, "r", encoding="utf-8") as file:
-            logs = json.load(file)
+        try:
+            with open(LOG_FILE, "r", encoding="utf-8") as file:
+                logs = json.load(file)
+            if not isinstance(logs, list):
+                logs = []
+        except (json.JSONDecodeError, OSError):
+            logs = []
 
     logs.append(log_entry)
 
@@ -58,7 +65,7 @@ def load_agency():
 
 def show_employees(agency):
     print("\nSEARCHPILOT AI")
-    print("=" * 40)
+    print("=" * 45)
     print("Agency:", agency["agency_name"])
     print("Total Employees:", agency["total_employees"])
 
@@ -70,39 +77,91 @@ def show_employees(agency):
         print(f"{number}. {employee}")
 
 
-def main():
-    agency = load_agency()
+def validate_website(website):
+    parsed = urlparse(website.strip())
 
+    if parsed.scheme not in ("http", "https"):
+        raise ValueError(
+            "Website must begin with https:// or http://"
+        )
+
+    if not parsed.hostname:
+        raise ValueError("Please enter a valid website URL.")
+
+    return website.strip()
+
+
+def get_client_details(args):
+    print("\nNEW CLIENT PROJECT")
+    print("=" * 45)
+
+    business_name = args.business_name
+
+    if not business_name:
+        business_name = input("Enter business name: ").strip()
+
+    website = args.website
+
+    if not website:
+        website = input("Enter website URL: ").strip()
+
+    if not business_name:
+        raise ValueError("Business name cannot be empty.")
+
+    website = validate_website(website)
+
+    return business_name, website
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="SearchPilot AI SEO and AEO Agency"
+    )
+
+    parser.add_argument("--business-name")
+    parser.add_argument("--website")
+    parser.add_argument(
+        "--no-run",
+        action="store_true",
+        help="Create tasks without executing employees."
+    )
+
+    args = parser.parse_args()
+
+    agency = load_agency()
     show_employees(agency)
 
-    print("\nPROJECT MANAGER: Initializing")
+    business_name, website = get_client_details(args)
 
-    save_log(
-        "project-manager",
-        "Initialized SearchPilot AI execution system",
-        "Completed"
-    )
-
-    print("\nPROJECT MANAGER: Assigning Tasks")
+    print("\nPROJECT MANAGER: Creating client project")
+    print("Business:", business_name)
+    print("Website:", website)
 
     tasks = assign_tasks(
-        business_name="Glow Nest Candle Studio",
-        website="https://example.com"
+        business_name=business_name,
+        website=website
     )
 
     save_log(
         "project-manager",
-        f"Assigned {len(tasks)} specialist tasks",
+        f"Created project and assigned {len(tasks)} tasks for {business_name}",
         "Completed"
     )
+
+    if args.no_run:
+        print("\nTasks created. Execution skipped.")
+        return
 
     print("\nPROJECT MANAGER: Starting employee execution")
 
     execute_pending_tasks()
 
-    print("\nPROJECT MANAGER: All tasks processed.")
+    print("\nPROJECT MANAGER: Execution process finished.")
     print("Check data/tasks.json and reports/ for results.")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (ValueError, OSError, KeyError) as error:
+        print(f"\nPROJECT ERROR: {error}")
